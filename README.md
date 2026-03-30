@@ -1,0 +1,194 @@
+# Frontend Requirement Mapper Skill
+
+`frontend-requirement-mapper` 是一个面向前端需求分析场景的 Agent Skill，适合处理这类工作：
+- PRD 描述不清，需要先澄清真实需求
+- 需要参考 `追齐APP` 或其他参考端的实际代码行为
+- 需要逐页面、逐坑位、逐字段地映射到目标项目
+- 需要输出可用于评审的前端需求分析或技术方案初稿
+
+它的目标不是替代判断，而是把前端最耗时的工作流固定下来：
+
+`PRD 澄清 -> 参考 APP 逆向盘点 -> 目标项目映射 -> 防遗漏检查 -> 报告输出`
+
+## 仓库结构
+
+```text
+.
+├── SKILL.md
+├── assets/
+│   └── requirement-analysis-template.md
+├── references/
+│   ├── checklist.md
+│   ├── domain-glossary-template.md
+│   ├── search-playbook.md
+│   └── workflow.md
+└── scripts/
+    └── scaffold_report.sh
+```
+
+## 适用场景
+
+- 阅读 PRD 后快速拆解功能点、待确认项和风险点
+- 扒参考 APP 或参考仓库，确认页面、坑位、展示条件和字段使用
+- 对照多个前端仓库，判断主仓库、联动仓库和改造范围
+- 输出结构化分析文档，减少遗漏
+
+## 安装方式
+
+把整个 skill 目录放到目标项目的 `.agents/skills/frontend-requirement-mapper/` 下：
+
+```text
+your-project/
+  .agents/
+    skills/
+      frontend-requirement-mapper/
+        SKILL.md
+        references/
+        assets/
+        scripts/
+```
+
+如果你只是本地先试，也可以把这个仓库当作独立 skill 目录使用。
+
+## 如何触发
+
+推荐在 Codex 中显式点名使用：
+
+```text
+请使用 frontend-requirement-mapper skill 分析这次需求。
+参考对象是追齐APP。
+主仓库是 /abs/path/repo-a
+联动仓库有：
+- /abs/path/repo-b
+- /abs/path/repo-c
+请先输出：
+1. 已明确
+2. 待确认
+3. 潜在风险
+4. 下一步建议搜索的页面、模块、字段关键词
+```
+
+## 你最好准备的输入
+
+### 必需
+
+- PRD
+- 参考对象
+- 主仓库路径
+
+### 推荐
+
+- 可能联动的仓库路径
+- 常见业务词解释
+- 页面归属信息
+- 你已经怀疑的页面、模块、接口、字段
+
+### 加分
+
+- 历史需求文档
+- 旧方案文档
+- 输出文档路径
+
+## 多仓库使用建议
+
+这个 skill 支持多仓库场景，但不建议一上来把所有仓库混在一起分析。
+
+更稳的方式是：
+- 先告诉 Agent 这次需求涉及哪些仓库
+- 明确主仓库
+- 标出哪些仓库只是联动检查
+- 最后再做跨仓汇总
+
+推荐输入格式：
+
+```md
+这次需求涉及多个仓库：
+
+| 仓库 | 路径 | 技术栈 | 负责范围 | 优先级 |
+| --- | --- | --- | --- | --- |
+| h5-main | /abs/path/h5-main | React + TS | 主站页面 | 高 |
+| activity-web | /abs/path/activity-web | Vue + TS | 活动页/运营页 | 高 |
+| shared-ui | /abs/path/shared-ui | React | 公共组件库 | 中 |
+```
+
+## 业务词怎么提供
+
+如果 PRD、代码和团队口径里的业务词不一致，建议提前给一份简单词典。
+
+例如：
+- `坑位 = slot / position / module / floor`
+- `金刚区 = kingkong / grid / shortcut`
+- `楼层 = floor / block / section`
+
+可以参考 [`references/domain-glossary-template.md`](references/domain-glossary-template.md)。
+
+## 实践建议
+
+### 第一次实践怎么跑
+
+第一次不要追求“大而全”，建议先跑一轮最小闭环：
+
+1. 给 PRD
+2. 告诉 Agent 参考对象是不是 `追齐APP`
+3. 给主仓库路径
+4. 如果有，再给 1 到 2 个联动仓库
+5. 再补 2 到 5 个关键业务词
+
+第一轮只要求输出：
+- `已明确`
+- `待确认`
+- `潜在风险`
+- `建议搜索关键词`
+
+等第一轮靠谱，再让它继续做参考 APP 盘点和目标项目映射。
+
+### 如果你准备不充分怎么办
+
+如果你只给了 PRD，Skill 仍然可以开始工作，但通常会先做：
+- 需求拆解
+- 模糊点识别
+- 风险提示
+- 下一步缺失信息清单
+
+只有当不确定性会影响这些判断时，才应该回头向你确认：
+- 该看哪个端
+- 主仓库是哪个
+- 参考 APP 的哪个页面才是正确对照对象
+- 两个字段是否语义等价
+
+如果只是普通信息缺失，应该继续推进，并把内容标成 `待确认`。
+
+### 建议长期维护的两类信息
+
+如果你经常做这类需求，建议逐步沉淀：
+- `repo manifest`
+  记录端、仓库、技术栈、负责范围、路径
+- `business glossary`
+  记录业务词、别名、代码关键词、字段含义
+
+它们不需要一次性整理完整，可以每次需求做完后顺手补一两条。
+
+### 不要让 Agent 做的事
+
+- 不要让它在仓库不明确时直接给最终方案
+- 不要让它把推测当事实写进文档
+- 不要让它只看 UI 层文件就下结论
+- 不要让它一次性全扫所有仓库
+
+## 产物
+
+Skill 最终建议输出一份结构化 Markdown 文档，可基于模板生成：
+
+```bash
+bash scripts/scaffold_report.sh path/to/output.md
+```
+
+模板位于 [`assets/requirement-analysis-template.md`](assets/requirement-analysis-template.md)。
+
+## 相关资源
+
+- Skill 入口说明：[`SKILL.md`](SKILL.md)
+- 工作流：[`references/workflow.md`](references/workflow.md)
+- 代码检索策略：[`references/search-playbook.md`](references/search-playbook.md)
+- 防遗漏清单：[`references/checklist.md`](references/checklist.md)
+- 业务词典模板：[`references/domain-glossary-template.md`](references/domain-glossary-template.md)
