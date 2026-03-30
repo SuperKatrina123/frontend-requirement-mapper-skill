@@ -2,13 +2,14 @@
 
 `frontend-requirement-mapper` 是一个面向前端需求分析场景的 Agent Skill，适合处理这类工作：
 - PRD 描述不清，需要先澄清真实需求
+- PRD 不够标准，需要先整理成开发可执行的 Spec
 - 需要参考 `追齐APP` 或其他参考端的实际代码行为
 - 需要逐页面、逐坑位、逐字段地映射到目标项目
 - 需要输出可用于评审的前端需求分析或技术方案初稿
 
 它的目标不是替代判断，而是把前端最耗时的工作流固定下来：
 
-`PRD 澄清 -> 参考 APP 逆向盘点 -> 目标项目映射 -> 防遗漏检查 -> 报告输出`
+`PRD 澄清 -> Spec 归一化 -> 参考 APP 逆向盘点 -> 目标项目映射 -> 防遗漏检查 -> 报告输出`
 
 ## 仓库结构
 
@@ -16,11 +17,13 @@
 .
 ├── SKILL.md
 ├── assets/
-│   └── requirement-analysis-template.md
+│   ├── requirement-analysis-template.md
+│   └── spec-template.md
 ├── references/
 │   ├── checklist.md
 │   ├── domain-glossary-template.md
 │   ├── search-playbook.md
+│   ├── spec-gap-checklist.md
 │   └── workflow.md
 └── scripts/
     └── scaffold_report.sh
@@ -29,6 +32,7 @@
 ## 适用场景
 
 - 阅读 PRD 后快速拆解功能点、待确认项和风险点
+- 在需求不标准时，先生成一份开发侧 Spec 初稿
 - 扒参考 APP 或参考仓库，确认页面、坑位、展示条件和字段使用
 - 对照多个前端仓库，判断主仓库、联动仓库和改造范围
 - 输出结构化分析文档，减少遗漏
@@ -138,6 +142,7 @@ your-project/
 - `已明确`
 - `待确认`
 - `潜在风险`
+- `Spec 初稿`
 - `建议搜索关键词`
 
 等第一轮靠谱，再让它继续做参考 APP 盘点和目标项目映射。
@@ -148,6 +153,7 @@ your-project/
 - 需求拆解
 - 模糊点识别
 - 风险提示
+- Spec 缺口识别
 - 下一步缺失信息清单
 
 只有当不确定性会影响这些判断时，才应该回头向你确认：
@@ -185,10 +191,14 @@ bash scripts/scaffold_report.sh path/to/output.md
 
 模板位于 [`assets/requirement-analysis-template.md`](assets/requirement-analysis-template.md)。
 
+如果 PRD 不够规范，建议先额外产出一份 Spec 初稿，模板位于 [`assets/spec-template.md`](assets/spec-template.md)，缺口检查清单位于 [`references/spec-gap-checklist.md`](references/spec-gap-checklist.md)。
+
 ## 相关资源
 
 - Skill 入口说明：[`SKILL.md`](SKILL.md)
 - 工作流：[`references/workflow.md`](references/workflow.md)
 - 代码检索策略：[`references/search-playbook.md`](references/search-playbook.md)
+- Spec 模板：[`assets/spec-template.md`](assets/spec-template.md)
+- Spec 缺口清单：[`references/spec-gap-checklist.md`](references/spec-gap-checklist.md)
 - 防遗漏清单：[`references/checklist.md`](references/checklist.md)
 - 业务词典模板：[`references/domain-glossary-template.md`](references/domain-glossary-template.md)

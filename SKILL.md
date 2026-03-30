@@ -9,6 +9,7 @@ Turn requirement analysis into a fixed evidence-driven workflow instead of ad ho
 
 Use this skill for tasks like:
 - Read a PRD and clarify vague points
+- Normalize a vague PRD into a development-facing spec
 - Reverse-analyze a reference app or reference codebase
 - Compare `reference app behavior -> target project capability -> field mapping`
 - Produce a frontend requirement analysis or technical solution draft
@@ -45,12 +46,25 @@ Read the PRD and extract:
 
 Use [references/workflow.md](references/workflow.md) for the stage-by-stage procedure.
 
-2. Reverse the reference app
+2. Normalize into a spec
+Convert the PRD into a development-facing spec before code mapping.
+
+Use:
+- [assets/spec-template.md](assets/spec-template.md)
+- [references/spec-gap-checklist.md](references/spec-gap-checklist.md)
+
+The spec should distinguish:
+- confirmed requirements
+- missing definitions
+- acceptance criteria
+- out-of-scope items
+
+3. Reverse the reference app
 Locate the relevant entry points, components, APIs, state, tracking, and field usage in the reference app or reference code.
 
 Use [references/search-playbook.md](references/search-playbook.md) for concrete search patterns.
 
-3. Map into the target project
+4. Map into the target project
 Compare the reference behavior with the target project and classify each function point as:
 - `直接复用`
 - `小改`
@@ -58,10 +72,10 @@ Compare the reference behavior with the target project and classify each functio
 - `字段缺失`
 - `待确认`
 
-4. Run the anti-omission pass
+5. Run the anti-omission pass
 Before finalizing, walk through [references/checklist.md](references/checklist.md) and explicitly call out risks, unknowns, and likely blind spots.
 
-5. Produce the report
+6. Produce the report
 Generate a structured markdown report using [assets/requirement-analysis-template.md](assets/requirement-analysis-template.md).
 
 If the user wants a file created first, scaffold it with:
@@ -108,6 +122,7 @@ When asking for clarification:
 
 Always include:
 - requirement summary
+- spec normalization result
 - reference app findings
 - target project mapping
 - field mapping
@@ -140,6 +155,8 @@ Do not stop at surface UI files if the task involves slot behavior or fields. Tr
 
 - Workflow details: [references/workflow.md](references/workflow.md)
 - Business glossary template: [references/domain-glossary-template.md](references/domain-glossary-template.md)
+- Spec template: [assets/spec-template.md](assets/spec-template.md)
+- Spec gap checklist: [references/spec-gap-checklist.md](references/spec-gap-checklist.md)
 - Search heuristics: [references/search-playbook.md](references/search-playbook.md)
 - Anti-omission checklist: [references/checklist.md](references/checklist.md)
 - Report template: [assets/requirement-analysis-template.md](assets/requirement-analysis-template.md)

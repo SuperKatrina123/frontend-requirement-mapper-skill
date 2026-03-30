@@ -53,7 +53,28 @@ Deliverable for this stage:
 
 Do not search the codebase with raw PRD text only. Normalize the requirement into keywords first.
 
-## Stage 2: Build the search vocabulary
+## Stage 2: Normalize into a spec
+
+Goal: turn the PRD into a development-facing spec that is precise enough for code analysis.
+
+Use:
+- `assets/spec-template.md`
+- `references/spec-gap-checklist.md`
+
+At this stage, force the requirement into:
+- scope and non-scope
+- pages/modules/slots
+- display and interaction rules
+- field definitions
+- edge cases
+- acceptance criteria
+
+If the PRD does not contain enough detail, do not hide that. Mark the missing parts as:
+- `待确认`
+- `缺失定义`
+- `推测`
+
+## Stage 3: Build the search vocabulary
 
 Before opening many files, write down the search vocabulary in three groups:
 
@@ -81,7 +102,7 @@ Example:
 - business word: `banner`
 - alternative words: `slot`, `pit`, `module`, `card`, `floor`
 
-## Stage 3: Reverse the reference app
+## Stage 4: Reverse the reference app
 
 Goal: identify what the reference app actually does, not what the PRD suggests it does.
 
@@ -103,7 +124,7 @@ For each function point, capture:
 
 If one slot behaves differently under different states, split it into separate rows.
 
-## Stage 4: Map to the target project
+## Stage 5: Map to the target project
 
 Goal: compare `reference app truth` with `target project reality`.
 
@@ -121,7 +142,7 @@ Suggested classifications:
 - `字段缺失`
 - `待确认`
 
-## Stage 5: Prepare the report
+## Stage 6: Prepare the report
 
 Write the report as an engineering artifact, not a chat reply.
 
@@ -135,7 +156,7 @@ The report should help the team answer:
 
 Use the template in `assets/requirement-analysis-template.md`.
 
-## Stage 6: Anti-omission review
+## Stage 7: Anti-omission review
 
 Before finishing:
 - walk the checklist in `references/checklist.md`
