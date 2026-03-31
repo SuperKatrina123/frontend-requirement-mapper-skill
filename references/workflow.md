@@ -163,3 +163,19 @@ Before finishing:
 - confirm that each important conclusion has evidence
 - convert weak conclusions into `待确认`
 - point out the highest-risk missing pieces
+
+## Stage 8: QA static verification (post-development closure)
+
+Use this stage after development is done and test cases are available.
+
+Goal: verify each test case against the actual implementation without running the code.
+
+Steps:
+1. Locate the validation function(s) and the call site
+2. Confirm which type system value is passed in at the call site
+3. Extract the regex or logic rule from the implementation
+4. For each test case, verify: happy path, boundary values, disallowed characters, case sensitivity, empty/blank inputs, leading/trailing whitespace
+5. Check the UI constraint layer independently (`maxlength`, `input type`, keyboard type)
+6. Record all results using `assets/qa-record-template.md`
+
+See `references/qa-playbook.md` for detailed search patterns and common traps.

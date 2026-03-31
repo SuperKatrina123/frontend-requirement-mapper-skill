@@ -78,6 +78,20 @@ Before finalizing, walk through [references/checklist.md](references/checklist.m
 6. Produce the report
 Generate a structured markdown report using [assets/requirement-analysis-template.md](assets/requirement-analysis-template.md).
 
+7. QA static verification (post-development closure)
+When development is complete and test cases are available, verify each case against the implementation statically — without running the code.
+
+Use:
+- [references/qa-playbook.md](references/qa-playbook.md) for the step-by-step verification method
+- [assets/qa-record-template.md](assets/qa-record-template.md) for recording and documenting results
+
+The key verification steps are:
+- Locate the validation function and understand which type system value reaches it
+- Extract the regex or rule from the implementation
+- Verify happy path, boundary values, disallowed characters, case sensitivity, and empty/blank inputs
+- Check the UI constraint layer (`maxlength`, `input type`) independently from the logic layer
+- Record all results in a structured table and write to the project doc
+
 If the user wants a file created first, scaffold it with:
 
 ```bash
@@ -160,3 +174,5 @@ Do not stop at surface UI files if the task involves slot behavior or fields. Tr
 - Search heuristics: [references/search-playbook.md](references/search-playbook.md)
 - Anti-omission checklist: [references/checklist.md](references/checklist.md)
 - Report template: [assets/requirement-analysis-template.md](assets/requirement-analysis-template.md)
+- QA static verification: [references/qa-playbook.md](references/qa-playbook.md)
+- QA record template: [assets/qa-record-template.md](assets/qa-record-template.md)
