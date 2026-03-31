@@ -26,6 +26,27 @@ Ask for or infer these inputs before starting:
 
 If an input is missing, proceed with the available evidence and mark gaps as `待确认`.
 
+## Workflow
+
+```mermaid
+flowchart TD
+    IN([PRD / 截图 / Issue]) --> S0
+
+    S0["Stage 0\n建立业务词典\n对齐术语、别名、字段语义"]
+    S1["Stage 1\nPRD 澄清\n拆解功能点 / 待确认 / 风险"]
+    S2["Stage 2\nSpec 归一化\n转成开发侧可执行 Spec"]
+    S3["Stage 3\n参考 APP 逆向\n页面 → 坑位 → 字段 → 追踪"]
+    S4["Stage 4\n目标项目映射\n直接复用 / 小改 / 需新增 / 字段缺失"]
+    S5["Stage 5\n防遗漏检查\n走 checklist，标注 待确认"]
+    S6["Stage 6\n输出分析报告\n字段映射 / 风险 / 任务拆分"]
+    S7["Stage 7\nQA 静态验证\n对照 test cases 逐条验证代码实现"]
+
+    S0 --> S1 --> S2 --> S3 --> S4 --> S5 --> S6
+    S6 -.->|开发完成后| S7
+
+    style S7 stroke-dasharray: 5 5
+```
+
 ## Default Workflow
 
 Follow these stages in order. Do not skip directly to a final solution draft.

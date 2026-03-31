@@ -1,15 +1,18 @@
 # Frontend Requirement Mapper Skill
 
-`frontend-requirement-mapper` 是一个面向前端需求分析场景的 Agent Skill，适合处理这类工作：
+`frontend-requirement-mapper` 是一个面向前端需求全生命周期的 Agent Skill，覆盖从 PRD 澄清到开发完成后 QA 闭环的完整工作流：
+
+```
+PRD 澄清 → Spec 归一化 → 参考 APP 逆向 → 目标项目映射 → 防遗漏检查 → 报告输出 → QA 静态验证
+```
+
+适合处理这类工作：
 - PRD 描述不清，需要先澄清真实需求
 - PRD 不够标准，需要先整理成开发可执行的 Spec
 - 需要参考 `追齐APP` 或其他参考端的实际代码行为
 - 需要逐页面、逐坑位、逐字段地映射到目标项目
 - 需要输出可用于评审的前端需求分析或技术方案初稿
-
-它的目标不是替代判断，而是把前端最耗时的工作流固定下来：
-
-`PRD 澄清 -> Spec 归一化 -> 参考 APP 逆向盘点 -> 目标项目映射 -> 防遗漏检查 -> 报告输出`
+- 开发完成后，需要对照 test cases 做前端校验逻辑的静态 QA 验证
 
 ## 仓库结构
 
@@ -17,11 +20,13 @@
 .
 ├── SKILL.md
 ├── assets/
+│   ├── qa-record-template.md         # QA 验证结果记录模板
 │   ├── requirement-analysis-template.md
 │   └── spec-template.md
 ├── references/
-│   ├── checklist.md
+│   ├── checklist.md                  # 防遗漏检查清单
 │   ├── domain-glossary-template.md
+│   ├── qa-playbook.md                # QA 静态验证方法论
 │   ├── search-playbook.md
 │   ├── spec-gap-checklist.md
 │   └── workflow.md
@@ -202,3 +207,5 @@ bash scripts/scaffold_report.sh path/to/output.md
 - Spec 缺口清单：[`references/spec-gap-checklist.md`](references/spec-gap-checklist.md)
 - 防遗漏清单：[`references/checklist.md`](references/checklist.md)
 - 业务词典模板：[`references/domain-glossary-template.md`](references/domain-glossary-template.md)
+- QA 静态验证方法论：[`references/qa-playbook.md`](references/qa-playbook.md)
+- QA 验证记录模板：[`assets/qa-record-template.md`](assets/qa-record-template.md)
