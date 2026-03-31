@@ -42,6 +42,27 @@ Use this checklist before finalizing the analysis.
 - Are there empty-value fallbacks?
 - Are there missing fields, or just not-yet-found fields?
 
+## Form input validation (easy to miss)
+
+When the requirement touches input fields or validation rules, check both layers independently:
+
+**Validation logic layer** (functions, regex):
+- Did you find the validation function for each field type?
+- Does the regex or rule match the PRD exactly, including edge values (min/max length, allowed charset, case restriction)?
+- Are there separate functions for different cert/field types, or does one generic fallback cover them all?
+- Is the function reused across platforms, or does each platform have its own copy?
+
+**UI constraint layer** (markup, component props):
+- Does the input have a hardcoded `maxlength` / `maxLength` that contradicts the validation rule?
+  - Example: validation allows 20 chars but `maxlength="18"` silently prevents the user from typing characters 19–20.
+- Is the `input type` (e.g., `type="number"`, `type="idcard"`) restricting what the user can enter?
+- Is the keyboard type appropriate for the field (e.g., numeric keyboard for digit-only fields)?
+- If `maxlength` is shared across multiple field types by a single template, set it to the widest allowed value and let the validation function enforce the exact rule — avoid per-type conditionals like `type === X ? 20 : 18` that become stale when new types are added.
+
+**Cross-platform consistency**:
+- If the requirement covers multiple platforms (app / miniapp / h5), does each platform have the correct validation logic?
+- Did you verify all platforms, not just the first one you found?
+
 ## Engineering risk
 
 - Does the change affect tracking semantics?

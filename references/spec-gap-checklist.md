@@ -8,6 +8,15 @@ Use this checklist before treating a PRD as implementation-ready.
 - Is it clear what is in scope?
 - Is it clear what is out of scope?
 - Is the terminal or platform clear?
+- If multiple platforms are in scope (app / miniapp / h5), is each platform listed explicitly?
+
+## Multi-platform coverage
+
+When the PRD says the change covers multiple platforms (e.g., "C app、小程序、h5"):
+- Is there a separate codebase for each platform, or is logic shared?
+- Has each platform's implementation been verified individually?
+- Does each platform have its own copy of the validation / display logic, or does it delegate to a shared module?
+- If platform A already has the correct behavior, do not assume platform B does too — check independently.
 
 ## Flow
 
