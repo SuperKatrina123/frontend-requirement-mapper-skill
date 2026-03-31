@@ -62,6 +62,8 @@ When the requirement touches input fields or validation rules, check both layers
 **Cross-platform consistency**:
 - If the requirement covers multiple platforms (app / miniapp / h5), does each platform have the correct validation logic?
 - Did you verify all platforms, not just the first one you found?
+- Is the validation function duplicated across files (e.g. copied into multiple components)? If so, are all copies consistent with each other?
+- At the call site, confirm which type system's value is passed into the validation function — the internal enum, the API response value, or the external component callback value. These may differ even when the variable name looks the same.
 
 ## Engineering risk
 

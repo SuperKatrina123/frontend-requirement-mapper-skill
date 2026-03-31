@@ -114,6 +114,27 @@ rg -n "^export.*enum|const.*= {" src
 rg -n "switch.*type|if.*type ===|getErrMsg|isValid" src
 ```
 
+**The mapping bridge may be a function or a constant lookup object.** Search for both patterns:
+
+```bash
+# Function-style bridge
+rg -n "mapType|typeToCode|codeToType" src
+
+# Constant-object-style bridge
+rg -n "TYPE_MAP|typeMap|CODE_MAP" src
+```
+
+Example: one platform may use a constant lookup object `TYPE_MAP[cardType]` while another uses a function `mapTypeToCode(cardType)` — both bridge the same two systems but look different in code.
+
+**Also trace the call site to confirm which system's value arrives at the validation function:**
+
+```bash
+# Find where the validation function is called, and what value is passed
+rg -n "validateField\|isValidType\|getErrMsg" src -A 2
+```
+
+Walk backwards from the call site: does the value come directly from the API response, from a component callback, or after a mapping step? The answer determines which system's value the validation `if/switch` must match.
+
 When you find both systems, document the mapping table explicitly. Do not assume a value in one system equals the same value in the other.
 
 ## What to capture while searching
