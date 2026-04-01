@@ -97,6 +97,8 @@ Before diffing anything, declare the **functional module locations** in both rep
 
 This is the most important pre-flight item. Without module anchors, a diff is just a list of file differences with no meaning.
 
+Template: use `assets/module-anchor-template.md` to record anchor pairs in a consistent format.
+
 **Preferred: developer provides locations directly**
 
 If the developer has already told you where the relevant code is (e.g. in the initial prompt or during PRD clarification), record it directly into the anchor table and skip the search steps below. Developer knowledge is faster and more accurate than any keyword search.
@@ -209,6 +211,8 @@ rg -rn "baseURL|API_HOST|endpoint|/api/v" src --type=ts
 ## Response payload diff (optional but preferred input)
 
 When the developer can provide **actual API response JSON** for the same page/module from both apps, prefer direct payload diff over inferring field structure from code.
+
+Template: use `assets/payload-diff-template.md` to record the diff and ownership decisions.
 
 **Why this is more reliable than code inference:**
 - TypeScript interfaces may be outdated or incomplete
@@ -512,6 +516,8 @@ rg -n "v-if=|v-show=|:class=|@tap=|@click=" <target-component.vue>
 ### Step C: Diff the two contracts
 
 Align rows by **visual semantic path**. For each row, compare the two sides' findings independently — do not assume field names correspond just because they describe the same visual element.
+
+Template: use `assets/ui-contract-template.md` (A/B/C tables) to keep the contract extraction and diff consistent.
 
 | 视觉语义路径 | 参考端字段 | 目标端字段 | 元素存在？ | 字段关系 | Gap 类型 |
 |-------------|-----------|-----------|-----------|---------|---------|

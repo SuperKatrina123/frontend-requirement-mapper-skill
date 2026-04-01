@@ -29,6 +29,14 @@ Ask for or infer these inputs before starting:
 
 If an input is missing, proceed with the available evidence and mark gaps as `待确认`.
 
+## Execution Modes
+
+Pick the smallest mode that closes the current decision loop:
+
+- **Light (Stage 0–2)**: `已明确 / 待确认 / 潜在风险 + Spec 初稿 + 建议搜索关键词` (recommended first run)
+- **Full analysis (Stage 0–7)**: add reference reverse + diff map + target mapping + report
+- **Post-dev QA (Stage 8)**: static verification against test cases
+
 ## Workflow
 
 ```mermaid
@@ -58,7 +66,9 @@ Follow these stages in order. Do not skip directly to a final solution draft.
 0. Establish the business vocabulary
 If the user provides business terms, aliases, abbreviations, slot names, or field semantics, normalize them first.
 
-Use [references/domain-glossary-template.md](references/domain-glossary-template.md) as the preferred structure for business vocabulary.
+Use one of these as the preferred structure for business vocabulary:
+- [assets/business-glossary-template.md](assets/business-glossary-template.md) (portable, recommended)
+- [references/domain-glossary-template.md](references/domain-glossary-template.md)
 
 1. Clarify the PRD
 Read the PRD and extract:
@@ -129,16 +139,22 @@ Use:
 - [references/qa-playbook.md](references/qa-playbook.md) for logic verification steps, UI structural checklist, and the visual verification handoff format
 - [assets/qa-record-template.md](assets/qa-record-template.md) for recording logic and UI structural results
 
-If the user wants a file created first, scaffold it with:
+If the user wants a file created first, scaffold it with one of these:
 
 ```bash
 bash scripts/scaffold_report.sh path/to/output.md
 ```
 
+Or initialize a full per-demand workspace (recommended for multi-stage work):
+
+```bash
+bash scripts/scaffold_workspace.sh path/to/output-dir
+```
+
 ## Evidence Discipline
 
 Every non-trivial claim should be grounded in evidence when code is available. Prefer:
-- file paths
+- file paths (prefer `path:line` when possible)
 - component or hook names
 - API names
 - field names
@@ -183,7 +199,12 @@ Always include:
 - implementation task breakdown
 - test points
 
-When possible, include clickable file references in the final answer.
+When possible, include clickable file references in the final answer, using `path:line` for evidence.
+
+## Language & Portability
+
+- Default output language: follow the user's language. If mixed, keep section titles bilingual where it reduces ambiguity.
+- Prefer portable Markdown artifacts (tables, checklists). Use Lark-only markup only when the user explicitly wants a Lark-ready output.
 
 ## Working Style
 
@@ -205,12 +226,16 @@ Do not stop at surface UI files if the task involves slot behavior or fields. Tr
 ## Resource Guide
 
 - Workflow details: [references/workflow.md](references/workflow.md)
-- Business glossary template: [references/domain-glossary-template.md](references/domain-glossary-template.md)
+- Business glossary template: [assets/business-glossary-template.md](assets/business-glossary-template.md)
 - Spec template: [assets/spec-template.md](assets/spec-template.md)
 - Spec gap checklist: [references/spec-gap-checklist.md](references/spec-gap-checklist.md)
 - Search heuristics: [references/search-playbook.md](references/search-playbook.md)
 - Cross-repo diff: [references/repo-diff-playbook.md](references/repo-diff-playbook.md)
+- Module anchors template: [assets/module-anchor-template.md](assets/module-anchor-template.md)
+- Diff map template: [assets/diff-map-template.md](assets/diff-map-template.md)
+- UI contract template: [assets/ui-contract-template.md](assets/ui-contract-template.md)
+- Payload diff template: [assets/payload-diff-template.md](assets/payload-diff-template.md)
 - Anti-omission checklist: [references/checklist.md](references/checklist.md)
 - Report template: [assets/requirement-analysis-template.md](assets/requirement-analysis-template.md)
 - QA static verification: [references/qa-playbook.md](references/qa-playbook.md)
-- QA record template: [assets/qa-record-template.md](assets/qa-record-template.md)
+- QA record template (portable Markdown): [assets/qa-record-template.md](assets/qa-record-template.md)

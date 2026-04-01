@@ -74,7 +74,7 @@ If the PRD does not contain enough detail, do not hide that. Mark the missing pa
 - `缺失定义`
 - `推测`
 
-## Stage 3: Build the search vocabulary
+## Stage 3: Reverse the reference app (and build the search vocabulary)
 
 Before opening many files, write down the search vocabulary in three groups:
 
@@ -102,8 +102,6 @@ Example:
 - business word: `banner`
 - alternative words: `slot`, `pit`, `module`, `card`, `floor`
 
-## Stage 4: Reverse the reference app
-
 Goal: identify what the reference app actually does, not what the PRD suggests it does.
 
 Trace in this order:
@@ -130,7 +128,7 @@ For each function point, capture:
 
 If one slot behaves differently under different states, split it into separate rows.
 
-## Stage 4.5: Cross-repo structural diff
+## Stage 4: Cross-repo structural diff
 
 Goal: build a **diff map** between the reference repo and the target repo before touching any target code.
 
@@ -177,9 +175,9 @@ The diff map table becomes the **primary input** to Stage 5. Do not start Stage 
 
 ## Stage 5: Map to the target project
 
-Goal: compare `reference app truth` with `target project reality`, using the diff map from Stage 4.5 as the starting point.
+Goal: compare `reference app truth` with `target project reality`, using the diff map from Stage 4 as the starting point.
 
-For each row in the diff map from Stage 4.5:
+For each row in the diff map from Stage 4:
 1. locate the target page
 2. locate the target slot or analogous module
 3. inspect data source and field names
@@ -195,7 +193,15 @@ Suggested classifications (refine from diff map):
 - `字段缺失`
 - `待确认`
 
-## Stage 6: Prepare the report
+## Stage 6: Anti-omission review
+
+Before finalizing:
+- walk the checklist in `references/checklist.md`
+- confirm that each important conclusion has evidence
+- convert weak conclusions into `待确认`
+- point out the highest-risk missing pieces
+
+## Stage 7: Produce the report
 
 Write the report as an engineering artifact, not a chat reply.
 
@@ -208,14 +214,6 @@ The report should help the team answer:
 - how to split the implementation work
 
 Use the template in `assets/requirement-analysis-template.md`.
-
-## Stage 7: Anti-omission review
-
-Before finishing:
-- walk the checklist in `references/checklist.md`
-- confirm that each important conclusion has evidence
-- convert weak conclusions into `待确认`
-- point out the highest-risk missing pieces
 
 ## Stage 8: QA static verification (post-development closure)
 

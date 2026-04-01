@@ -22,7 +22,12 @@ PRD 澄清 → Spec 归一化 → 参考 APP 逆向 → 跨仓库结构 Diff →
 .
 ├── SKILL.md
 ├── assets/
-│   ├── qa-record-template.md         # QA 验证结果记录模板
+│   ├── business-glossary-template.md
+│   ├── diff-map-template.md
+│   ├── module-anchor-template.md
+│   ├── payload-diff-template.md
+│   ├── ui-contract-template.md
+│   ├── qa-record-template.md         # QA 记录模板（纯 Markdown，可移植）
 │   ├── requirement-analysis-template.md
 │   └── spec-template.md
 ├── references/
@@ -34,7 +39,8 @@ PRD 澄清 → Spec 归一化 → 参考 APP 逆向 → 跨仓库结构 Diff →
 │   ├── spec-gap-checklist.md
 │   └── workflow.md
 └── scripts/
-    └── scaffold_report.sh
+    ├── scaffold_report.sh
+    └── scaffold_workspace.sh          # 一键初始化工作目录
 ```
 
 ## 适用场景
@@ -85,6 +91,38 @@ your-project/
 3. 潜在风险
 4. 下一步建议搜索的页面、模块、字段关键词
 ```
+
+## Quickstart（推荐第一次这样跑）
+
+1) 先初始化一个本次需求的工作目录（可选，但强烈推荐）：
+
+```bash
+bash scripts/scaffold_workspace.sh docs/req-YYYYMMDD-short-name
+```
+
+2) 给 Agent 的最小输入（复制粘贴即可）：
+
+```text
+请使用 frontend-requirement-mapper skill 分析这次需求。
+
+PRD：
+（粘贴 PRD / 截图文字描述 / issue 链接）
+
+参考对象：
+（如 追齐APP / 参考仓库路径）
+
+目标仓库路径：
+（abs path）
+
+业务代码位置（强烈推荐，能大幅减少搜索成本）：
+- 参考端：...
+- 目标端：...
+
+本轮先只跑 Stage 0–2，输出：已明确 / 待确认 / 潜在风险 / Spec 初稿 / 建议搜索关键词。
+输出到：docs/req-YYYYMMDD-short-name/spec.md
+```
+
+3) 第一轮确认没跑偏后，再让它继续跑 Stage 3–7（参考端逆向 / Diff Map / 映射 / 报告）。
 
 ## 你最好准备的输入
 
@@ -198,6 +236,15 @@ Skill 在参考 APP 逆向完成后、进入目标项目映射前，会执行一
   记录端、仓库、技术栈、负责范围、路径
 - `business glossary`
   记录业务词、别名、代码关键词、字段含义
+
+## 模板与介质说明
+
+- QA 验证记录模板：`assets/qa-record-template.md`
+- Stage 4 的关键中间产物建议用模板：
+  - `assets/module-anchor-template.md`
+  - `assets/diff-map-template.md`
+  - `assets/ui-contract-template.md`
+  - `assets/payload-diff-template.md`
 
 它们不需要一次性整理完整，可以每次需求做完后顺手补一两条。
 
