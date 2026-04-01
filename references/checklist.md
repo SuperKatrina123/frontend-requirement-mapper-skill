@@ -19,7 +19,10 @@ Use this checklist before finalizing the analysis.
 - Did you split different slot states into separate cases?
 - Did you find fallback fields or downgrade logic?
 - Did you inspect tracking, exposure, and click reporting?
-- Did you inspect feature flags or experiment logic?
+- Did you check if the feature is behind a **feature toggle / remote config switch**? What is the default state?
+- Did you check if the feature is inside an **A/B experiment** branch? Is the experiment still running or already fully rolled out?
+- Did you identify any **remote config fields** (text, color, threshold, URL, count) that differ from hardcoded values?
+- If the experiment is already graduated in the reference app, note that — the target can implement the final state directly without copying the experiment wrapper.
 - Did you inspect loading, empty, error, and retry states?
 
 ## Target project mapping

@@ -113,14 +113,20 @@ Trace in this order:
 4. data source
 5. fields that drive visibility, content, jump, style, and tracking
 6. special states and guard conditions
+7. **feature toggles, remote config, and A/B experiments** — check whether any part of the feature is gated; if inside an A/B branch, identify which variant is the "final state"
 
 For each function point, capture:
 - what the user sees
 - where it renders
 - which fields it consumes
-- which condition gates it
+- which condition gates it (including toggle key / experiment bucket)
 - which event is reported
 - which files prove the behavior
+
+**Toggle / config / experiment — capture specifically:**
+- toggle key, storage location (server-push / config platform / local hardcode), and the behavior when toggle is off
+- any remote config fields (text, colors, thresholds, counts, URLs) and their fallback defaults
+- A/B experiment key, active variants, and whether the experiment is still running or already graduated to stable
 
 If one slot behaves differently under different states, split it into separate rows.
 
