@@ -37,6 +37,33 @@ Pick the smallest mode that closes the current decision loop:
 - **Full analysis (Stage 0–7)**: add reference reverse + diff map + target mapping + report
 - **Post-dev QA (Stage 8)**: static verification against test cases
 
+## Optional: Sub-agent Delegation
+
+When the task is large (multi-module / cross-repo / cross-stack), use a coordinator + sub-agents to reduce wall-clock time.
+
+**Coordinator responsibilities (always stay in the main agent):**
+- Lock the execution mode (Light / Full / QA).
+- Own the final artifacts (Spec / Diff Map / Report / QA record).
+- Enforce evidence discipline and resolve contradictions between sub-agent findings.
+
+**Recommended sub-agent split (map to stages):**
+- Sub-agent A (Stage 0–2): PRD clarification + Spec draft + open questions.
+- Sub-agent B (Stage 3): reference app/repo reverse analysis (page → slot → field → tracking → toggles).
+- Sub-agent C (Stage 4–5): tech-stack snapshot + module anchors + diff map + target mapping candidates.
+- Sub-agent D (Stage 8, optional): static QA verification against test cases (logic + UI structure).
+
+**Stage 6–7 ownership (recommended):**
+- Stage 6 (anti-omission review) and Stage 7 (final report) are **integration steps** and should be owned by the coordinator.
+- Optional delegation: a sub-agent can draft Stage 7 sections, but the coordinator must reconcile conflicts and re-check evidence + checklist before finalizing.
+
+**Output contract for each sub-agent:**
+- Findings in tables (prefer the templates in `assets/`).
+- Evidence as `path:line` when code is available.
+- A short list of `待确认` items (only blockers marked as blocking).
+
+**Dependency rule:**
+- Stage 4/5 may start once there is at least a draft module-anchor table; do not wait for the full report.
+
 ## Workflow
 
 ```mermaid

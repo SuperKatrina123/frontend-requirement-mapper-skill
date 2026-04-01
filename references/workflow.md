@@ -2,6 +2,17 @@
 
 Use this workflow when analyzing a frontend requirement that depends on a vague PRD and a reference app such as `追齐APP`.
 
+## Optional: multi-agent parallelism
+
+If you can delegate work, keep a main coordinator and parallelize by evidence source:
+- Agent A: PRD clarification + Spec draft (Stage 0–2)
+- Agent B: Reference reverse analysis (Stage 3)
+- Agent C: Cross-repo diff map + target mapping (Stage 4–5)
+
+Always integrate in the coordinator: resolve contradictions, dedupe, and enforce `待确认` labeling.
+
+Recommended: keep Stage 6 (anti-omission) and Stage 7 (final report) in the coordinator, because they require merging all evidence and applying the checklist consistently.
+
 ## Stage 0: Establish the business vocabulary
 
 Goal: align business language before code search and mapping.

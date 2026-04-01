@@ -124,6 +124,15 @@ PRD：
 
 3) 第一轮确认没跑偏后，再让它继续跑 Stage 3–7（参考端逆向 / Diff Map / 映射 / 报告）。
 
+### 可选：用 sub-agent 并行跑（提速）
+
+如果需求较大（多模块/跨仓/跨栈），可以保留一个主 Agent 做“协调与收口”，并行拆给 sub-agent：
+- sub-agent A：Stage 0–2（PRD 澄清 + Spec 初稿）
+- sub-agent B：Stage 3（参考端逆向）
+- sub-agent C：Stage 4–5（Diff Map + 目标端映射候选）
+
+主 Agent 负责 Stage 6–7（防遗漏检查 + 最终报告）、冲突消解、证据与 `待确认` 收口；Stage 8（QA 静态验证）通常放到开发完成后再单独跑。
+
 ## 你最好准备的输入
 
 ### 必需
