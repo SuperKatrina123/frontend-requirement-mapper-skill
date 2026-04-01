@@ -24,6 +24,8 @@ Use this checklist before finalizing the analysis.
 
 ## Target project mapping
 
+- Did you run the cross-repo structural diff before starting target mapping?
+- Does a diff map table exist with every in-scope module classified by change type (UI-only / Logic-only / UI+Logic)?
 - Did you find the target page and analogous module?
 - Did you inspect route config, page container, child components, hooks/store, and API layer?
 - Did you check whether a shared component change will affect other pages?

@@ -36,13 +36,14 @@ flowchart TD
     S1["Stage 1\nPRD 澄清\n拆解功能点 / 待确认 / 风险"]
     S2["Stage 2\nSpec 归一化\n转成开发侧可执行 Spec"]
     S3["Stage 3\n参考 APP 逆向\n页面 → 坑位 → 字段 → 追踪"]
-    S4["Stage 4\n目标项目映射\n直接复用 / 小改 / 需新增 / 字段缺失"]
-    S5["Stage 5\n防遗漏检查\n走 checklist，标注 待确认"]
-    S6["Stage 6\n输出分析报告\n字段映射 / 风险 / 任务拆分"]
-    S7["Stage 7\nQA 静态验证\n对照 test cases 逐条验证代码实现"]
+    S4["Stage 4\n跨仓库结构 Diff\nUI / 逻辑 / UI+逻辑 分类 → Diff Map"]
+    S5["Stage 5\n目标项目映射\n以 Diff Map 为基础 / 直接复用 / 小改 / 需新增 / 字段缺失"]
+    S6["Stage 6\n防遗漏检查\n走 checklist，标注 待确认"]
+    S7["Stage 7\n输出分析报告\n字段映射 / 风险 / 任务拆分"]
+    S8["Stage 8\nQA 静态验证\n对照 test cases 逐条验证代码实现"]
 
-    S0 --> S1 --> S2 --> S3 --> S4 --> S5 --> S6
-    S6 -.->|开发完成后| S7
+    S0 --> S1 --> S2 --> S3 --> S4 --> S5 --> S6 --> S7
+    S7 -.->|开发完成后| S8
 
     style S7 stroke-dasharray: 5 5
 ```
@@ -85,33 +86,45 @@ Locate the relevant entry points, components, APIs, state, tracking, and field u
 
 Use [references/search-playbook.md](references/search-playbook.md) for concrete search patterns.
 
-4. Map into the target project
-Compare the reference behavior with the target project and classify each function point as:
+4. Cross-repo structural diff
+**Before mapping to the target project**, diff the reference repo and target repo structurally to build a diff map.
+
+Always run this stage when the change involves UI layout, when it touches more than 3 modules, or when the PRD is vague about implementation scope. For small, pure-logic, explicitly scoped changes a spot-diff is sufficient.
+
+Use [references/repo-diff-playbook.md](references/repo-diff-playbook.md) for the step-by-step diff method.
+
+The diff map classifies every divergence point by:
+- Change type: `UI-only` / `Logic-only` / `UI+Logic`
+- Preliminary gap: `直接复用` / `小改` / `需新增` / `字段缺失` / `待确认`
+
+The diff map is the **primary input** to Stage 5. Do not start mapping without it.
+
+5. Map into the target project
+Use the diff map from Stage 4 as the starting point. Work through rows by risk order, not PRD mention order. Refine each classification as you inspect target files.
 - `直接复用`
 - `小改`
 - `需新增`
 - `字段缺失`
 - `待确认`
 
-5. Run the anti-omission pass
+6. Run the anti-omission pass
 Before finalizing, walk through [references/checklist.md](references/checklist.md) and explicitly call out risks, unknowns, and likely blind spots.
 
-6. Produce the report
+7. Produce the report
 Generate a structured markdown report using [assets/requirement-analysis-template.md](assets/requirement-analysis-template.md).
 
-7. QA static verification (post-development closure)
-When development is complete and test cases are available, verify each case against the implementation statically — without running the code.
+8. QA static verification (post-development closure)
+When development is complete, verify the implementation statically — without running the code. Covers two layers:
+
+**Logic verification**: validate functions, regex rules, type system mapping, UI input constraints (`maxlength`, `input type`).
+
+**UI structural verification**: for each slot in the diff map contract, verify slot existence, field binding (including cross-stack field name mapping), conditional render rules, event handlers, and state variations (empty / loading / error).
+
+**UI visual verification**: layout, spacing, and color correctness cannot be verified statically. Output a targeted list of slots that need human / screenshot-tool review, specifying why each needs visual confirmation.
 
 Use:
-- [references/qa-playbook.md](references/qa-playbook.md) for the step-by-step verification method
-- [assets/qa-record-template.md](assets/qa-record-template.md) for recording and documenting results
-
-The key verification steps are:
-- Locate the validation function and understand which type system value reaches it
-- Extract the regex or rule from the implementation
-- Verify happy path, boundary values, disallowed characters, case sensitivity, and empty/blank inputs
-- Check the UI constraint layer (`maxlength`, `input type`) independently from the logic layer
-- Record all results in a structured table and write to the project doc
+- [references/qa-playbook.md](references/qa-playbook.md) for logic verification steps, UI structural checklist, and the visual verification handoff format
+- [assets/qa-record-template.md](assets/qa-record-template.md) for recording logic and UI structural results
 
 If the user wants a file created first, scaffold it with:
 
@@ -193,6 +206,7 @@ Do not stop at surface UI files if the task involves slot behavior or fields. Tr
 - Spec template: [assets/spec-template.md](assets/spec-template.md)
 - Spec gap checklist: [references/spec-gap-checklist.md](references/spec-gap-checklist.md)
 - Search heuristics: [references/search-playbook.md](references/search-playbook.md)
+- Cross-repo diff: [references/repo-diff-playbook.md](references/repo-diff-playbook.md)
 - Anti-omission checklist: [references/checklist.md](references/checklist.md)
 - Report template: [assets/requirement-analysis-template.md](assets/requirement-analysis-template.md)
 - QA static verification: [references/qa-playbook.md](references/qa-playbook.md)

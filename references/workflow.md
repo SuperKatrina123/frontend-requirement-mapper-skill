@@ -124,18 +124,64 @@ For each function point, capture:
 
 If one slot behaves differently under different states, split it into separate rows.
 
+## Stage 4.5: Cross-repo structural diff
+
+Goal: build a **diff map** between the reference repo and the target repo before touching any target code.
+
+This stage exists because a PRD describes intent, not structural reality. Without a diff pass, the agent finds what the PRD told it to look for — and misses everything else.
+
+**Always run this stage when:**
+- The change involves UI layout or component structure
+- The change involves both UI and logic
+- The requirement touches more than 3 modules
+- The PRD is vague or high-level about implementation scope
+
+**For small, pure-logic, explicitly scoped changes**, a light spot-diff is sufficient.
+
+Follow the steps in `references/repo-diff-playbook.md`:
+
+**Pre-flight (required before any diff step):**
+0. Tech stack snapshot — framework, routing, state, API layer, styling, build
+0. Directory convention map — where pages / components / API / state live in each repo
+0. Module anchor table — declare `functional module → ref path + target path` for every in-scope module; search target repo by business keywords if location is unknown
+
+**Diff steps (operate on module anchor pairs, not on whole-repo trees):**
+1. Directory structure diff
+2. Route diff
+3. Component structure diff (per page/module in scope)
+4. API diff
+5. State and data flow diff
+6. Style/CSS diff (for UI-type changes only)
+7. Produce the diff map table
+
+The diff map table becomes the **primary input** to Stage 5. Do not start Stage 5 without it.
+
+**Change type classification** (assign to each diff row):
+- `UI-only` — visual layout, style, props
+- `Logic-only` — data flow, business rules, API calls
+- `UI+Logic` — both layers coupled; investigate both paths independently
+
+**Preliminary classification** (assign to each diff row):
+- `直接复用` — identical behavior confirmed
+- `小改` — minor delta found
+- `需新增` — exists in reference, missing from target
+- `字段缺失` — API or data field absent in target
+- `待确认` — structural presence unclear
+
 ## Stage 5: Map to the target project
 
-Goal: compare `reference app truth` with `target project reality`.
+Goal: compare `reference app truth` with `target project reality`, using the diff map from Stage 4.5 as the starting point.
 
-For each function point:
+For each row in the diff map from Stage 4.5:
 1. locate the target page
 2. locate the target slot or analogous module
 3. inspect data source and field names
-4. classify the gap
+4. refine the preliminary classification from the diff map
 5. note downstream impact
 
-Suggested classifications:
+Work through diff map rows by risk order, not PRD mention order.
+
+Suggested classifications (refine from diff map):
 - `直接复用`
 - `小改`
 - `需新增`
@@ -170,7 +216,9 @@ Use this stage after development is done and test cases are available.
 
 Goal: verify each test case against the actual implementation without running the code.
 
-Steps:
+This stage covers two types of verification:
+
+**Logic verification** (fully static):
 1. Locate the validation function(s) and the call site
 2. Confirm which type system value is passed in at the call site
 3. Extract the regex or logic rule from the implementation
@@ -178,4 +226,16 @@ Steps:
 5. Check the UI constraint layer independently (`maxlength`, `input type`, keyboard type)
 6. Record all results using `assets/qa-record-template.md`
 
-See `references/qa-playbook.md` for detailed search patterns and common traps.
+**UI structural verification** (static, per slot in diff map contract):
+1. Slot existence — verify every slot from the contract exists in target code
+2. Field binding — verify each field is correctly bound, including field name mapping
+3. Conditional render — verify visibility conditions match the spec
+4. Event handlers — verify interactive slots have handlers attached
+5. State variations — verify empty / loading / error states are handled
+
+**UI visual verification** (cannot be done statically — flag for human or tooling):
+- Layout, spacing, color — requires running app + screenshot vs design spec
+- Cross-stack visual parity — requires running both platforms and comparing
+- When handing off, specify exactly which slots need visual confirmation and why; do not give a blanket "all UI needs visual review"
+
+See `references/qa-playbook.md` for detailed search patterns, common traps, and the UI verification checklist.

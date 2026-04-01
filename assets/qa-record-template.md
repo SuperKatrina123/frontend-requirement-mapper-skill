@@ -43,6 +43,39 @@
 
 ---
 
+## UI 结构验证（坑位 / 字段 / 条件）
+
+> 验证方式：静态代码验证
+> 视觉验证：⚠️ 以下各项结构通过后，仍需人工 / 截图工具做视觉确认
+
+<lark-table rows="5" cols="5" header-row="true">
+  <lark-tr><lark-td>坑位 / 元素</lark-td><lark-td>坑位存在</lark-td><lark-td>字段绑定正确</lark-td><lark-td>条件渲染正确</lark-td><lark-td>事件挂载正确</lark-td></lark-tr>
+  <lark-tr><lark-td>商品主图</lark-td><lark-td>✅ / ❌</lark-td><lark-td>✅ mainPic / ❌</lark-td><lark-td>always / ✅</lark-td><lark-td>tap→预览 ✅ / ❌</lark-td></lark-tr>
+  <lark-tr><lark-td>促销角标</lark-td><lark-td>✅ / ❌</lark-td><lark-td>✅ tagName / ❌</lark-td><lark-td>tagName != null ✅ / ❌</lark-td><lark-td>无 ✅</lark-td></lark-tr>
+  <lark-tr><lark-td>加购按钮</lark-td><lark-td>✅ / ❌</lark-td><lark-td>✅ / ❌ 字段缺失</lark-td><lark-td>canAddCart ✅ / ❌</lark-td><lark-td>tap→加购 ✅ / ❌</lark-td></lark-tr>
+</lark-table>
+
+### 状态变体检查
+
+<lark-table rows="4" cols="3" header-row="true">
+  <lark-tr><lark-td>状态</lark-td><lark-td>Reference 有此状态</lark-td><lark-td>Target 实现</lark-td></lark-tr>
+  <lark-tr><lark-td>空列表</lark-td><lark-td>✅</lark-td><lark-td>✅ 有 empty 分支 / ❌ 缺失</lark-td></lark-tr>
+  <lark-tr><lark-td>加载中</lark-td><lark-td>✅</lark-td><lark-td>✅ skeleton / ❌ 缺失</lark-td></lark-tr>
+  <lark-tr><lark-td>错误/重试</lark-td><lark-td>✅</lark-td><lark-td>✅ / ❌ 缺失</lark-td></lark-tr>
+</lark-table>
+
+### 需人工视觉确认的坑位
+
+以下坑位结构验证通过，但视觉正确性需运行后截图确认：
+
+- [ ] 坑位名：原因（如：rpx 尺寸需对照设计稿；颜色由动态字段驱动）
+
+以下坑位存在结构问题，应先修复再做视觉验证：
+
+- [ ] 坑位名：问题描述（如：字段缺失 / 条件不匹配）
+
+---
+
 ## 验证结论
 
 **通过 / 存在问题**
