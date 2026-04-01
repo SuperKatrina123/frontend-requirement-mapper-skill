@@ -74,7 +74,11 @@ your-project/
 主仓库是 /abs/path/repo-a
 联动仓库有：
 - /abs/path/repo-b
-- /abs/path/repo-c
+
+业务代码位置（可选，提供后跳过模块发现阶段）：
+- 参考端：src/screens/Product/Detail/，src/components/Card/
+- 目标端：src/pages/goods/detail/，src/components/goods-card.vue
+
 请先输出：
 1. 已明确
 2. 待确认
@@ -93,8 +97,8 @@ your-project/
 ### 推荐
 
 - 可能联动的仓库路径
+- **业务代码位置**：本次需求涉及的文件或目录（参考端和目标端各自在哪），提供后 agent 跳过模块发现阶段，直接开始 diff
 - 常见业务词解释
-- 页面归属信息
 - 你已经怀疑的页面、模块、接口、字段
 
 ### 加分

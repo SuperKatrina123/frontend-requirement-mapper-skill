@@ -21,8 +21,11 @@ Ask for or infer these inputs before starting:
 - PRD text, markdown, screenshots, or issue links
 - Reference app name and any code/file clues
 - Target project path or repo slice to inspect
+- **Business code locations** — which files or directories contain the relevant logic for this requirement. If provided, the agent skips keyword-based module discovery and goes directly to those locations.
 - Optional business glossary, naming cheatsheet, or example requirement docs
 - Optional constraints: deadline, output file path, expected doc format
+
+**Business code locations** are the single highest-value hint a developer can provide. Even one line like `参考端：src/screens/Product/Detail/，目标端：src/pages/goods/detail/` eliminates the most uncertain part of the diff process.
 
 If an input is missing, proceed with the available evidence and mark gaps as `待确认`.
 

@@ -134,6 +134,8 @@ Use this section when the requirement includes UI layout or display changes, not
 
 **The fundamental limit**: visual correctness cannot be verified by reading code. Static analysis can verify structural correctness (right elements, right fields, right conditions). Visual appearance requires a running app and human eyes or screenshot tooling.
 
+**Preferred approach when the app can be run**: use the runtime-assisted diff workflow in `references/repo-diff-playbook.md` (Cross-stack UI semantic diff → Runtime-assisted mode). Screenshot diff identifies what is different; browser inspection (React/Vue DevTools + Playwright) locates the exact component and file. The static checks below are a fallback when the app cannot be run, or a verification pass after runtime-assisted diff.
+
 ### What the agent can verify (structural)
 
 For each slot in the diff map contract (from Stage 4 / `repo-diff-playbook.md` Step C), verify the following by reading code:

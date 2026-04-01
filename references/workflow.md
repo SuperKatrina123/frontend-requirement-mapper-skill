@@ -135,10 +135,11 @@ This stage exists because a PRD describes intent, not structural reality. Withou
 - The change involves both UI and logic
 - The requirement touches more than 3 modules
 - The PRD is vague or high-level about implementation scope
+- The two repos call different backend services
 
-**For small, pure-logic, explicitly scoped changes**, a light spot-diff is sufficient.
+**For small, pure-logic, explicitly scoped changes**, a light spot-diff (Pre-flight + Step 3 + Step 4 only) is sufficient.
 
-Follow the steps in `references/repo-diff-playbook.md`:
+Follow the steps in `references/repo-diff-playbook.md`. **Start with the Quick decision tree at the top** — it tells you exactly which sections to read based on change type, tech stack compatibility, service alignment, and scale. Do not read the full playbook for every task.
 
 **Pre-flight (required before any diff step):**
 0. Tech stack snapshot — framework, routing, state, API layer, styling, build
